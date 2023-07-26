@@ -40,6 +40,7 @@ export function useDrag() {
 
 (function f() {
     let target = null
+    window.targetList = []
     const originalPosition = {x: 0, y: 0}
     const clientPosition = {x: 0, y: 0}
 
@@ -57,12 +58,12 @@ export function useDrag() {
         const {clientX, clientY} = e
         console.log(clientX, clientY)
         target = document.elementFromPoint(clientX, clientY)
+        if (!window.targetList.includes(target)) window.targetList.push(target)
         target.style.pointerEvents = 'none'
-        target.addEventListener('click', function (e) {
-            e.stopPropagation()
-            e.preventDefault()
-        })
-        console.log(target)
+        // target.addEventListener('click', function (e) {
+        //     e.stopPropagation()
+        //     e.preventDefault()
+        // })
         const {left: x, top: y} = target.getBoundingClientRect()
         Object.assign(originalPosition, {x, y})
         if (target === document.body) return
